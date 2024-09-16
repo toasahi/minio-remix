@@ -9,7 +9,7 @@ import {
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { Form } from "@remix-run/react";
 import fs from "node:fs";
-import FileInput from "~/_components/v0/file-input";
+// import FileInput from "~/_components/v0/file-input";
 
 export const meta: MetaFunction = () => {
   return [
@@ -40,10 +40,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const s3Client = new S3Client({
     region: "ap-northeast-1",
     credentials: {
-      accessKeyId: "root",
-      secretAccessKey: "password",
+      accessKeyId: process.env.MINIO_ACCESS_KEY ?? "",
+      secretAccessKey: process.env.MINIO_SECRET_ACCESS_KEY ?? "",
     },
-    endpoint: "http://127.0.0.1:9000",
+    endpoint: process.env.MINIO_ENDPOINT,
   });
 
   const inputParams = {

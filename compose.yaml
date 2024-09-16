@@ -1,0 +1,19 @@
+services:
+  remix:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./remix/app:/usr/server/app
+      - ./remix/public:/usr/server/public
+  minio:
+    image: minio/minio:latest
+    environment:
+      MINIO_ROOT_USER: root
+      MINIO_ROOT_PASSWORD: password
+    volumes:
+      - .minio:/data
+    command: server --console-address ":9001" /data
+    ports:
+      - 9000:9000
+      - 9001:9001
