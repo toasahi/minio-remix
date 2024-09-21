@@ -4,8 +4,8 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./remix/app:/usr/server/app
-      - ./remix/public:/usr/server/public
+      - ./app:/usr/server/app
+      - ./public:/usr/server/public
   minio:
     image: minio/minio:latest
     environment:

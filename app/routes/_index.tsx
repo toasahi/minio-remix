@@ -1,5 +1,6 @@
 import {
   ActionFunctionArgs,
+  NodeOnDiskFile,
   unstable_composeUploadHandlers,
   unstable_createFileUploadHandler,
   unstable_createMemoryUploadHandler,
@@ -9,6 +10,7 @@ import {
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { Form } from "@remix-run/react";
 import fs from "node:fs";
+import os from "node:os";
 // import FileInput from "~/_components/v0/file-input";
 
 export const meta: MetaFunction = () => {
@@ -31,11 +33,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     uploadHandler
   );
 
-  const file = formData.get("file");
+  const file = formData.get("file") as NodeOnDiskFile;
 
-  console.log(file)
-
-  const fileContent = fs.readFileSync(file.filepath);
+  // Fileのアップロード先はデフォルトでos.tmpdirになる
+  const fileContent = fs.readFileSync(`${os.tmpdir()}/${file.name}`);
 
   const s3Client = new S3Client({
     region: "ap-northeast-1",
